@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm/dist';
 import { RegistrationModule } from './modules/registration/registration.module';
+import { LoginModule } from './modules/login/login.module';
 import * as dotenv from 'dotenv'
 import { join } from 'path';
 import {DatabaseModule} from "./database.module"
@@ -15,6 +16,7 @@ dotenv.config()
 @Module({
   imports: [
     RegistrationModule,
+    LoginModule,
     ConfigModule.forRoot({
     validationSchema: Joi.object({
       POSTGRES_HOST: Joi.string().required(),

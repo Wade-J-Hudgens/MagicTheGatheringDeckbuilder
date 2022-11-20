@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import './App.css';
 
 function App() {
-  const [data, setData] = useState({})
+  const [data, setData] = useState({success:true,data:0})
   useEffect(()=>{
-    fetch("http://localhost:4000/api/registerUser", {
+    fetch("http://localhost:4000/api/login", {
       method: "POST",
       headers: {
         'Accept': 'application/json',
@@ -16,6 +16,7 @@ function App() {
       return res.json()
     })
     .then((res) => {
+      console.log(res)
       setData(res);
     })
   }, [])

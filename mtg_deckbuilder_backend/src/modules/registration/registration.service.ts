@@ -3,7 +3,7 @@ import { FindOneOptions, Repository } from 'typeorm';
 import { Users } from '../../model/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { RegisterUserResponseInterface, RegisterUserErrorCodes } from './registration.interfaces';
-import bcrypt from "bcrypt";
+const bcrypt = require('bcrypt')
 
 @Injectable()
 export class RegistrationService {
@@ -41,10 +41,7 @@ export class RegistrationService {
   }
 
   async hashPassword(password: string) {
-    let hashedPassword = "";
-    bcrypt.hash(password, 10, (err, hash)=>{
-        hashedPassword = hash;
-    })
+    const hashedPassword = await bcrypt.hash(password, 10)
     return hashedPassword;
   }
 
@@ -53,17 +50,16 @@ export class RegistrationService {
     if (!validatePasswordRequirements) return {success: false, error:  RegisterUserErrorCodes.PasswordNotLongEnough} 
 
     let hashedPassword = await this.hashPassword(password);
-    
     const validInput = await this.ensureValidInput(email,username,password,firstName,lastName);
     if (!validInput) return {success: false, error:  RegisterUserErrorCodes.ServerError} 
     const emailFormat = await this.checkEmailFormat(email);
     if (!emailFormat) return {success: false, error: RegisterUserErrorCodes.InvalidEmailFormat}
-    const emailExists = await this.checkIfEmailExists(email);
-    if (emailExists) return {success: false, error: RegisterUserErrorCodes.EmailExists }
     const usernameExists = await this.checkIfUsernameExists(username);
     if (usernameExists) return {success: false, error: RegisterUserErrorCodes.UsernameExists}
+    const emailExists = await this.checkIfEmailExists(email);
+    if (emailExists) return {success: false, error: RegisterUserErrorCodes.EmailExists }
 
-    try{this.userRepo.insert({email: email, username: username, password: hashedPassword, firstName: firstName, lastName: lastName});}
+    try{await this.userRepo.insert({email: email, username: username, password: hashedPassword, firstName: firstName, lastName: lastName});}
     catch{return {success: false, error: RegisterUserErrorCodes.ServerError}}
 
     return {success: true}
