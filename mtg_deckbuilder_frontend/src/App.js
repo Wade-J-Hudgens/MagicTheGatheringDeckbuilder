@@ -1,22 +1,29 @@
+import { useEffect, useState } from 'react';
 import './App.css';
 
 function App() {
+  const [data, setData] = useState({})
+  useEffect(()=>{
+    fetch("http://localhost:4000/api/registerUser", {
+      method: "POST",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+      },
+      body: JSON.stringify({email:"test@gmail.com",firstName:"wade",lastName:"hudgens",username:"wadehudgens",password:"6516565@SDFsvsfvbs"})
+    }).then((res) => {
+      return res.json()
+    })
+    .then((res) => {
+      setData(res);
+    })
+  }, [])
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      SUCC: {data.success.toString()}
+      <br />
+      ERR: {data.error}
     </div>
   );
 }

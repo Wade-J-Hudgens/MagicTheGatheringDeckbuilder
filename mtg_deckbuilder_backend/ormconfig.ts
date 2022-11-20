@@ -14,4 +14,5 @@ const config: PostgresConnectionOptions = {
     migrations: [join(__dirname, "src", "migration", "**", "*.ts")],
     synchronize: true
 }
+export {config}
 export const connectionSource = new DataSource(config);

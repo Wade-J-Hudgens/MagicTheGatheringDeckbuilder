@@ -14,6 +14,12 @@ export abstract class Users {
     @Column({type: 'text'})
     email: string;
 
+    @Column({type: 'text'})
+    firstName: string;
+
+    @Column({type: 'text'})
+    lastName: string;
+
     @CreateDateColumn({type: 'timestamptz'})
     accountCreatedDate: Date;
 }
