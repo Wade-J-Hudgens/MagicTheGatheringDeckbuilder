@@ -1,0 +1,9 @@
+{
+    "baseUrl": "http://localhost:4000/api",
+    "endpoints": {
+        "register": {"label": "register", "endpoint": "/registerUser", "method": "POST"},
+        "register_checkEmail": {"label": "check_email", "endpoint": "/registerUser/checkEmail", "method": "POST"},
+        "register_checkUser": {"label": "check_user", "endpoint": "/registerUser/checkUser", "method": "POST"},
+        "login": {"label": "login", "endpoint": "/login", "method": "POST"}
+    }
+}

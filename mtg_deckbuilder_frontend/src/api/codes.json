@@ -1,0 +1,16 @@
+{
+    "register": {
+        "error": {
+            "0": "An account with this email already exists.",
+            "1": "An account with this username already exists.",
+            "2": "Not a valid email",
+            "3": "An internal server error occured",
+            "4": "Password not long enough"
+        }
+    },
+    "login": {
+        "error": {
+            "0": "Email and/or password are not valid."
+        }
+    }
+}

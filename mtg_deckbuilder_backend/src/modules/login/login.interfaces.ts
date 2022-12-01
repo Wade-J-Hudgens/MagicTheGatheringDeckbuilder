@@ -1,5 +1,6 @@
 interface LoginResponseInterface {
     success: boolean,
+    authenticationString? : string,
     error?: number
 }
 const LoginErrorCodes = {
@@ -8,7 +9,8 @@ const LoginErrorCodes = {
 
 interface LoginRequestBody {
     email: string,
-    password: string
+    password: string,
+    rememberMe: boolean
 }
 
 export {LoginErrorCodes, LoginResponseInterface, LoginRequestBody}

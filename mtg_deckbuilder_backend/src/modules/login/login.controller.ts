@@ -9,6 +9,6 @@ export class LoginController {
 
   @Post("/api/login")
   async login(@Body() body: LoginRequestBody): Promise<LoginResponseInterface> {
-    return this.appService.verifyUsernamePassword(body.email, body.password);
-  }
+    return this.appService.verifyUsernamePassword(body.email, body.password, body.rememberMe);
+  } 
 }

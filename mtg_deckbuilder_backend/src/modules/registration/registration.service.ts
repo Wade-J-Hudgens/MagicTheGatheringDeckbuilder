@@ -13,7 +13,11 @@ export class RegistrationService {
   ) {}
 
   async checkEmailFormat (email: string): Promise<boolean> {
-    return true;
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))
+    {
+        return (true)
+    }
+    return (false)
   }
 
   async checkPasswordFormat (password: string) {

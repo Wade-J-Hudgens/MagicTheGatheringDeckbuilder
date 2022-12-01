@@ -17,4 +17,10 @@ interface RegisterUserRequestBody {
     lastName: string,
     username: string
 }
-export {RegisterUserResponseInterface, RegisterUserErrorCodes, RegisterUserRequestBody}
+interface EmailUserRequestInterface {
+    value: string
+}
+interface CheckEmailUserInterface {
+    exists: boolean
+}
+export {RegisterUserResponseInterface, RegisterUserErrorCodes, RegisterUserRequestBody, CheckEmailUserInterface, EmailUserRequestInterface}
