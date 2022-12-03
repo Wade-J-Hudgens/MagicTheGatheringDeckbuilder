@@ -8,6 +8,7 @@ import errorCodes from "../../../api/codes.json";
 import BlurredLiliana from "../assets/BlurredLillianaBackground.png";
 import BlurredGideon from "../assets/BlurredGideonBackground.png";
 import { registerUser } from "../../../api/register";
+import {getUserData} from "../../../api/userData";
 
 import { RegisterModal } from "./registerModal";
 
@@ -161,6 +162,7 @@ export default function LoginRegister(props) {
             if (res.success) {
                 window.localStorage.setItem('authenticationString', res.authenticationString);
                 setLoading(false);
+                return true;
             }
             else {
                 toast({
@@ -169,6 +171,19 @@ export default function LoginRegister(props) {
                     title: errorCodes.login.error[res.error.toString()]
                 });
                 setLoading(false);
+                return false;
+            }
+        })
+        .then((res) => {
+            if (res) {
+                console.log("made")
+                return getUserData();
+            }
+            return false;
+        })
+        .then((res) => {
+            if (res !== false) {
+                console.log(res);
             }
         })
     }

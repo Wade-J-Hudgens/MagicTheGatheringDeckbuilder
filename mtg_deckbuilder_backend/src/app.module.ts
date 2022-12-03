@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm/dist';
 import { RegistrationModule } from './modules/registration/registration.module';
 import { LoginModule } from './modules/login/login.module';
 import { AuthenticationModule } from './modules/authentication/authentication.module';
+import { UserDataModule } from './modules/userdata/userdata.module';
 import * as dotenv from 'dotenv'
 import { join } from 'path';
 import {DatabaseModule} from "./database.module"
@@ -19,6 +20,7 @@ dotenv.config()
     RegistrationModule,
     LoginModule,
     AuthenticationModule,
+    UserDataModule,
     ConfigModule.forRoot({
     validationSchema: Joi.object({
       POSTGRES_HOST: Joi.string().required(),

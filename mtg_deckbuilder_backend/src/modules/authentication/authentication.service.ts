@@ -14,7 +14,7 @@ export class AuthenticationService {
     async getUserFromAuthenticationString(authenticationString: string): Promise<GetUsersResponseInterface> {
         const results = await this.authenticationRepo.findOne({where: {authenticationString: authenticationString}});
         if (results != null) {
-            return {authenticated: true, uuid: results.id}
+            return {authenticated: true, uuid: results.accountId}
         }
         return {authenticated: false}
     }
