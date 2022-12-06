@@ -1,0 +1,17 @@
+[
+    {
+        "label": "Home",
+        "href": "/home",
+        "mobile": true
+    },
+    {
+        "label": "Apps",
+        "href": "/Apps",
+        "mobile": true
+    },
+    {
+        "label": "Fourms",
+        "href": "/fourm",
+        "mobile": true
+    }
+]

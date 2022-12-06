@@ -4,8 +4,11 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import LandingPage from './pages/landingPage/landingPage';
+import HomePage from './pages/homePage/homePage';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { ChakraProvider, ColorModeProvider, extendTheme, ColorModeScript, ThemeProvider } from "@chakra-ui/react"
+import { ChakraProvider, ColorModeProvider, extendTheme, ColorModeScript, ThemeProvider } from "@chakra-ui/react";
+import {Provider} from "react-redux"
+import store from './redux/store';
 
 const extenedChakra = {
   config: {
@@ -16,18 +19,23 @@ const extenedChakra = {
 const theme = extendTheme(extenedChakra)
 console.log(theme.config.initialColorMode)
 
+
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <>
-  <BrowserRouter>
-    <ChakraProvider>
-      <ColorModeProvider>
-        <Routes>
-          <Route exact path='/' element={<LandingPage />}/>
-        </Routes>
-      </ColorModeProvider>
-    </ChakraProvider>
-  </BrowserRouter>
+    <Provider store={store}>
+        <BrowserRouter>
+          <ChakraProvider>
+            <ColorModeProvider>
+              <Routes>
+                <Route exact path='/' element={<LandingPage />}/>
+                <Route exact path="/home" element={<HomePage />}/>
+              </Routes>
+            </ColorModeProvider>
+          </ChakraProvider>
+        </BrowserRouter>
+    </Provider>
   </>
 );
 

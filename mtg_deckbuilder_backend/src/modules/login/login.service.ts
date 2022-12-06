@@ -44,8 +44,6 @@ export class LoginService {
         const compared = await bcrypt.compare(password, user.password);
         if (compared) {
             const authString = generateAuthenticationString();
-            const currentUserAuth = await this.authRepo.find({where: {accountId: user.id}});
-            await this.authRepo.remove(currentUserAuth);
             await this.authRepo.insert({rememberMe: rememberMe, accountId: user.id, authenticationString: authString});
             return ({success: true, authenticationString: authString});
         }

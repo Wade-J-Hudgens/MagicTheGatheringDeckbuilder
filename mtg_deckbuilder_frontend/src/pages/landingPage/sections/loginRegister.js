@@ -1,14 +1,18 @@
 import styled, {keyframes} from "styled-components";
 import {Heading, Input, Text, Button, Checkbox, Link, useColorMode, useColorModeValue, Image, useToast} from "@chakra-ui/react";
 import {SlArrowDown} from "react-icons/sl";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import {login} from "../../../api/login"
 import errorCodes from "../../../api/codes.json";
+import { redirect } from "react-router-dom";
 
 import BlurredLiliana from "../assets/BlurredLillianaBackground.png";
 import BlurredGideon from "../assets/BlurredGideonBackground.png";
 import { registerUser } from "../../../api/register";
 import {getUserData} from "../../../api/userData";
+
+import { useSelector, useDispatch } from 'react-redux';
+import {toggleAuth, toggleGuest, setUser} from "../../../redux/userData/userData"
 
 import { RegisterModal } from "./registerModal";
 
@@ -151,6 +155,14 @@ export default function LoginRegister(props) {
 
     const [loading, setLoading] = useState(false);
 
+    const [initialLoading, setInitialLoading] = useState(true);
+    const dispatch = useDispatch();
+    const isGuest = useSelector((state) => state.userData.isGuest);
+    const isAuthenticated = useSelector((state) => state.userData.authenticated);
+    const user = useSelector((state) => state.userData.user);
+
+    
+
     const toast = useToast();
 
     const loginOnClick = () => {
@@ -176,14 +188,18 @@ export default function LoginRegister(props) {
         })
         .then((res) => {
             if (res) {
-                console.log("made")
                 return getUserData();
             }
             return false;
         })
         .then((res) => {
             if (res !== false) {
-                console.log(res);
+                dispatch(setUser({
+                    username: res.username,
+                    email: res.email,
+                    firstName: res.firstName,
+                    lastName: res.lastName
+                }));
             }
         })
     }
@@ -191,8 +207,12 @@ export default function LoginRegister(props) {
         setRegisterModal(true);
     }
 
+    useEffect(()=>{
+
+    }, [])
+
     const TextColor=useColorModeValue('white', 'white')
-    
+    const isLoading = loading||props.loading
     return (
         <Container>
             <BackgroundImage src={colorMode==='light'?BlurredGideon:BlurredLiliana} />
@@ -201,26 +221,26 @@ export default function LoginRegister(props) {
             <Title>MTG Toolkit</Title>
             <LoginInputsContainer>
                 <LogRegInContainer key={"emailInputFieldInputContainer"}>
-                    <EmailPassTextbox disabled={loading} key={"emailInputFieldLogin"} value={email} onChange={e => setEmail(e.target.value)} variant={"flushed"} color={TextColor} placeholder="Email" aria-label="Email"></EmailPassTextbox>
+                    <EmailPassTextbox disabled={isLoading} key={"emailInputFieldLogin"} value={email} onChange={e => setEmail(e.target.value)} variant={"flushed"} color={TextColor} placeholder="Email" aria-label="Email"></EmailPassTextbox>
                 </LogRegInContainer>
                 <LogRegInContainer>
-                    <EmailPassTextbox disabled={loading} key={"passwordInputFieldLogin"} value={password} onChange={(e)=>{setPassword(e.target.value)}} variant={"flushed"} color={TextColor} placeholder="Password" type="password" aria-label="Password"></EmailPassTextbox>
+                    <EmailPassTextbox disabled={isLoading} key={"passwordInputFieldLogin"} value={password} onChange={(e)=>{setPassword(e.target.value)}} variant={"flushed"} color={TextColor} placeholder="Password" type="password" aria-label="Password"></EmailPassTextbox>
                 </LogRegInContainer>
             </LoginInputsContainer>
             
             <LogRegInputsContainer>
                 <LoginRegisterButtonsContainer>
-                    <LoginRegisterButton disabled={loading} color={TextColor} variant='outline' onClick={loginOnClick}>Login</LoginRegisterButton>
-                    <LoginRegisterButton disabled={loading} color={TextColor} variant='outline' onClick={registerOnClick}>Register</LoginRegisterButton>
+                    <LoginRegisterButton disabled={isLoading} color={TextColor} variant='outline' onClick={loginOnClick}>Login</LoginRegisterButton>
+                    <LoginRegisterButton disabled={isLoading} color={TextColor} variant='outline' onClick={registerOnClick}>Register</LoginRegisterButton>
                 </LoginRegisterButtonsContainer>
                 <RememberMeCheckboxContainer>
-                    <RememberMeCheckbox disabled={loading} value={rememberMe} onChange={(e)=>{setRememberMe(!rememberMe)}}>
+                    <RememberMeCheckbox disabled={isLoading} value={rememberMe} onChange={(e)=>{setRememberMe(!rememberMe)}}>
                         Remember Me
                     </RememberMeCheckbox>
                 </RememberMeCheckboxContainer>
             </LogRegInputsContainer>
 
-            <GuestLink disabled={loading} variant={'ghost'} color={`${TextColor}`} href="google.com">
+            <GuestLink disabled={isLoading} variant={'ghost'} color={`${TextColor}`} href="google.com">
                 Continue as guest
             </GuestLink>
             
